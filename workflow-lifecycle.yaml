@@ -1,0 +1,52 @@
+framework:
+    workflows:
+        order_lifecycle:
+            type: state_machine
+            marking_store:
+                type: property
+                property: lifecycle
+            supports: [App\Models\Order]
+            initial_marking: cart
+            places:
+                cart:
+                    metadata:
+                        description: "In the customer's cart"
+                placed:
+                    metadata:
+                        description: 'Order placed'
+                shipped:
+                    metadata:
+                        description: 'Out for delivery'
+                delivered:
+                    metadata:
+                        description: 'Received by customer'
+                completed:
+                    metadata:
+                        description: 'Closed without dispute'
+                cancelled:
+                    metadata:
+                        description: 'Cancelled before fulfillment'
+            transitions:
+                place:
+                    from: cart
+                    to: placed
+                    guard: 'role:customer'
+                ship:
+                    from: placed
+                    to: shipped
+                    guard: 'role:warehouse'
+                deliver:
+                    from: shipped
+                    to: delivered
+                    guard: 'role:warehouse'
+                complete:
+                    from: delivered
+                    to: completed
+                cancel_cart:
+                    from: cart
+                    to: cancelled
+                    guard: 'role:customer'
+                cancel_placed:
+                    from: placed
+                    to: cancelled
+                    guard: 'role:manager'

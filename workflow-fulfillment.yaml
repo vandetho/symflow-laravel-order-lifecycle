@@ -1,0 +1,45 @@
+framework:
+    workflows:
+        order_fulfillment:
+            type: workflow
+            marking_store:
+                type: property
+                property: fulfillment_marking
+            supports: [App\Models\Order]
+            initial_marking: queued
+            places:
+                queued:
+                    metadata:
+                        description: 'Awaiting warehouse'
+                picking:
+                    metadata:
+                        description: 'Picker pulling items'
+                packing:
+                    metadata:
+                        description: 'Packing supplies prepared'
+                picked:
+                    metadata:
+                        description: 'Items picked'
+                packed:
+                    metadata:
+                        description: 'Box packed'
+                ready:
+                    metadata:
+                        description: 'Ready for shipping'
+            transitions:
+                start_fulfillment:
+                    from: queued
+                    to: [picking, packing]
+                    guard: 'role:warehouse'
+                pick:
+                    from: picking
+                    to: picked
+                    guard: 'role:warehouse'
+                pack:
+                    from: packing
+                    to: packed
+                    guard: 'role:warehouse'
+                finalize:
+                    from: [picked, packed]
+                    to: ready
+                    guard: 'role:warehouse'

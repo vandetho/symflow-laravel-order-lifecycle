@@ -1,0 +1,44 @@
+# fly.toml — symflow-laravel-order-lifecycle
+# Generate an APP_KEY locally and set it as a secret before first deploy:
+#   fly secrets set APP_KEY="base64:$(openssl rand -base64 32)"
+# Then `fly deploy` from the project root.
+
+app = "symflow-order-lifecycle"
+primary_region = "iad"
+
+[build]
+
+[env]
+  APP_NAME = "Symflow Orders"
+  APP_ENV = "production"
+  APP_DEBUG = "false"
+  APP_URL = "https://symflow-order-lifecycle.fly.dev"
+  LOG_CHANNEL = "stderr"
+  LOG_LEVEL = "info"
+  DB_CONNECTION = "sqlite"
+  DB_DATABASE = "/data/database.sqlite"
+  SESSION_DRIVER = "database"
+  CACHE_STORE = "database"
+  QUEUE_CONNECTION = "database"
+
+[[mounts]]
+  source = "order_data"
+  destination = "/data"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ["app"]
+
+  [http_service.concurrency]
+    type = "requests"
+    hard_limit = 250
+    soft_limit = 200
+
+[[vm]]
+  cpu_kind = "shared"
+  cpus = 1
+  memory_mb = 512

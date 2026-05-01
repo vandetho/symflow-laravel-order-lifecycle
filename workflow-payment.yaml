@@ -1,0 +1,45 @@
+framework:
+    workflows:
+        order_payment:
+            type: state_machine
+            marking_store:
+                type: property
+                property: payment
+            supports: [App\Models\Order]
+            initial_marking: unpaid
+            places:
+                unpaid:
+                    metadata:
+                        description: 'No payment attempted'
+                authorized:
+                    metadata:
+                        description: 'Hold placed on card'
+                captured:
+                    metadata:
+                        description: 'Funds settled'
+                refunded:
+                    metadata:
+                        description: 'Refunded to customer'
+                failed:
+                    metadata:
+                        description: 'Payment failed'
+            transitions:
+                authorize:
+                    from: unpaid
+                    to: authorized
+                    guard: 'role:customer'
+                capture:
+                    from: authorized
+                    to: captured
+                    guard: 'role:finance'
+                refund:
+                    from: captured
+                    to: refunded
+                    guard: 'role:finance'
+                fail:
+                    from: unpaid
+                    to: failed
+                retry:
+                    from: failed
+                    to: unpaid
+                    guard: 'role:customer'

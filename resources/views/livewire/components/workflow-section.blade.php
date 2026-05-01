@@ -122,6 +122,28 @@
         </div>
     </div>
 
+    {{-- Canonical canvas: live iframe from symflowbuilder.com --}}
+    @if ($symflowbuilderShareId)
+        @php $embedMarking = implode(',', array_map('urlencode', $activePlaces)); @endphp
+        <div class="border-t border-zinc-100 px-6 pt-4 pb-2">
+            <div class="mb-2 flex items-center justify-between">
+                <span class="text-[10px] font-semibold uppercase tracking-wider text-zinc-500">Canonical canvas — symflowbuilder.com</span>
+                <a href="https://symflowbuilder.com/w/{{ $symflowbuilderShareId }}" target="_blank" rel="noopener"
+                   class="inline-flex items-center gap-1 text-[10px] font-medium text-zinc-500 hover:{{ $a['text'] }}">
+                    Open full size
+                    <svg class="size-2.5" viewBox="0 0 20 20" fill="currentColor"><path d="M11 3a1 1 0 1 0 0 2h2.586L7.293 11.293a1 1 0 1 0 1.414 1.414L15 6.414V9a1 1 0 1 0 2 0V4a1 1 0 0 0-1-1h-5z"/><path d="M5 5a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-3a1 1 0 1 0-2 0v3H5V7h3a1 1 0 1 0 0-2H5z"/></svg>
+                </a>
+            </div>
+            <iframe wire:key="symflowbuilder-iframe-{{ $workflowName }}-{{ $embedMarking }}"
+                    src="https://symflowbuilder.com/embed/{{ $symflowbuilderShareId }}?branding=0&minimap=0&scenario=0{{ $embedMarking !== '' ? '&marking='.$embedMarking : '' }}"
+                    width="100%" height="380"
+                    class="rounded-lg"
+                    style="border:0"
+                    loading="lazy"
+                    title="SymFlowBuilder workflow"></iframe>
+        </div>
+    @endif
+
     {{-- Compact per-workflow audit footer --}}
     @if ($auditLogs->isNotEmpty())
         <div class="border-t border-zinc-100 bg-zinc-50/50 px-6 py-3">

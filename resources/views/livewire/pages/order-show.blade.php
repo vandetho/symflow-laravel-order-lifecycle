@@ -69,6 +69,7 @@
             :label="$w['label']"
             :description="$w['description']"
             :accent="$w['accent']"
+            :symflowbuilder-share-id="$w['symflowbuilderShareId']"
             :key="'wf-'.$w['name'].'-'.$order->id" />
     @endforeach
 

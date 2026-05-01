@@ -28,15 +28,24 @@ class WorkflowSection extends Component
 
     public string $accent = 'sky';
 
+    public ?string $symflowbuilderShareId = null;
+
     public string $reason = '';
 
-    public function mount(Order $order, string $workflowName, string $label, string $description, string $accent = 'sky'): void
-    {
+    public function mount(
+        Order $order,
+        string $workflowName,
+        string $label,
+        string $description,
+        string $accent = 'sky',
+        ?string $symflowbuilderShareId = null,
+    ): void {
         $this->order = $order;
         $this->workflowName = $workflowName;
         $this->label = $label;
         $this->description = $description;
         $this->accent = $accent;
+        $this->symflowbuilderShareId = $symflowbuilderShareId;
     }
 
     public function fire(string $transition): void

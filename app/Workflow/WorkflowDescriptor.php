@@ -17,7 +17,8 @@ final class WorkflowDescriptor
      *     description: string,
      *     property: string,
      *     accent: string,
-     *     icon: string
+     *     icon: string,
+     *     symflowbuilderShareId: string
      * }>
      */
     public static function all(): array
@@ -30,6 +31,7 @@ final class WorkflowDescriptor
                 'property' => 'lifecycle',
                 'accent' => 'sky',
                 'icon' => 'package',
+                'symflowbuilderShareId' => 'f9fb48bd55b047f3',
             ],
             [
                 'name' => 'order_payment',
@@ -38,6 +40,7 @@ final class WorkflowDescriptor
                 'property' => 'payment',
                 'accent' => 'emerald',
                 'icon' => 'credit-card',
+                'symflowbuilderShareId' => '17fc978fa8ba7163',
             ],
             [
                 'name' => 'order_fulfillment',
@@ -46,6 +49,7 @@ final class WorkflowDescriptor
                 'property' => 'fulfillment_marking',
                 'accent' => 'orange',
                 'icon' => 'box',
+                'symflowbuilderShareId' => 'e06b4f2adc828b0b',
             ],
         ];
     }
